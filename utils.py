@@ -1,22 +1,17 @@
 import SimpleITK as sitk
-#import pydicom
 import numpy as np
-#import cupy as cp
 import os
 import matplotlib.pyplot as plt
 import itk
-import itkwidgets 
 import k3d
 from k3d.colormaps import matplotlib_color_maps
-#import open3d as o3d
 import pandas as pd
-#from scipy.spatial import KDTree
 from math import *
-#from scipy import spatial
 import time
 from tqdm import tqdm
-from itkwidgets import view
-
+#problem itkwidget/itkviewer
+#import itkwidgets 
+#from itkwidgets import view
 
 def serie_reader(path):
     '''
@@ -134,8 +129,25 @@ def define_param(newres, coomin, coomax):
     return new_origin, new_spacing, dir_new
 
 
+def save_volume(array, res, origin, dcm, filename, vType):
+    '''
+    Save Volume
     
+    '''
+    result_image = sitk.Image(array.shape, vType)
+    result_image = sitk.GetImageFromArray(array)
+    
+    result_image.SetSpacing((res, res, res))
+    result_image.SetOrigin(origin)
+    result_image.SetDirection(tuple(dcm.flatten()))
+    
+    # write the image
+    sitk.WriteImage(result_image, filename)
 
+
+
+"""
+ITKviewer problem with jupyter
 def itk_view_from_simpleitk(image, sp, direction, origin):
     '''
     Get a view of an ITK image from a SimpleITK image.
@@ -157,18 +169,4 @@ def itk_view_from_simpleitk(image, sp, direction, origin):
     
     return itk_view
 
-
-def save_volume(array, res, origin, dcm, filename, vType):
-    '''
-    Save Volume
-    
-    '''
-    result_image = sitk.Image(array.shape, vType)
-    result_image = sitk.GetImageFromArray(array)
-    
-    result_image.SetSpacing((res, res, res))
-    result_image.SetOrigin(origin)
-    result_image.SetDirection(tuple(dcm.flatten()))
-    
-    # write the image
-    sitk.WriteImage(result_image, filename)
+"""
