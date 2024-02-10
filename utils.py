@@ -9,7 +9,7 @@ import pandas as pd
 from math import *
 import time
 from tqdm import tqdm
-#problem itkwidget/itkviewer
+#problem itkwidget/jupyterlab
 #import itkwidgets 
 #from itkwidgets import view
 
