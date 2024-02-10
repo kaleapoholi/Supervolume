@@ -3,8 +3,8 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import itk
-#import k3d
-#from k3d.colormaps import matplotlib_color_maps
+import k3d
+from k3d.colormaps import matplotlib_color_maps
 import pandas as pd
 from math import *
 import time
