@@ -1,22 +1,17 @@
 import SimpleITK as sitk
-#import pydicom
 import numpy as np
-#import cupy as cp
 import os
 import matplotlib.pyplot as plt
 import itk
-import itkwidgets 
-import k3d 
+import k3d
 from k3d.colormaps import matplotlib_color_maps
-#import open3d as o3d
 import pandas as pd
-#from scipy.spatial import KDTree
 from math import *
-#from scipy import spatial
 import time
 from tqdm import tqdm
-from itkwidgets import view
-
+#problem itkwidget/jupyterlab
+#import itkwidgets 
+#from itkwidgets import view
 
 def serie_reader(path):
     '''
@@ -71,29 +66,8 @@ def calcul_physicsCoo(ori, A, image):
     for i in tqdm(range(0,image.shape[0])):
         for j in range(image.shape[1]):
             for k in range(image.shape[2]):
-                intensity=image[i,j,k]
                 p_c=ori+np.dot(A, np.array([k,j,i]))
-                phyCoo.append([p_c[0], p_c[1], p_c[2], intensity])
-                #print(intensity)
-    
-    phyCoo=np.array(phyCoo)
-    return phyCoo
-
-def calcul_physicsCoo2(ori, A, image):
-    '''
-    ori : [x,y,z] coordinates of the origin of volume in patient ref.
-    A : dot product between spacing and DCM
-    image : volume
-    return list of coordinates and intensity value
-    '''
-    phyCoo=[]
-    for i in tqdm(range(0,image.shape[0])):
-        for j in range(image.shape[1]):
-            for k in range(image.shape[2]):
-                intensity=image[i,j,k]
-                p_c=ori+np.dot(A, np.array([k,j,i]))
-                phyCoo.append([p_c[0], p_c[1], p_c[2]])
-                #print(intensity)
+                phyCoo.append([p_c[0], p_c[1], p_c[2]])#, i])
     
     phyCoo=np.array(phyCoo)
     return phyCoo
@@ -155,30 +129,6 @@ def define_param(newres, coomin, coomax):
     return new_origin, new_spacing, dir_new
 
 
-    
-
-def itk_view_from_simpleitk(image, sp, direction, origin):
-    '''
-    Get a view of an ITK image from a SimpleITK image.
-    '''
-    
-    #np_view = sitk.GetArrayViewFromImage(image)
-    print(image.shape)
-    itk_view = itk.image_view_from_array(image)
-    #print(sp)
-    itk_view.SetSpacing(sp)
-    itk_view.SetOrigin(origin)
-    print('here')
-    #itkspacing = itk.matrix_from_array(sp)
-    
-    itkdir = itk.matrix_from_array(direction)
-    print('la')
-    itk_view.SetDirection(direction)
-    #outputImageFileName='new_vol_test'
-    
-    return itk_view
-
-
 def save_volume(array, res, origin, dcm, filename, vType):
     '''
     Save Volume
@@ -193,3 +143,30 @@ def save_volume(array, res, origin, dcm, filename, vType):
     
     # write the image
     sitk.WriteImage(result_image, filename)
+
+
+
+"""
+ITKviewer problem with jupyter
+def itk_view_from_simpleitk(image, sp, direction, origin):
+    '''
+    Get a view of an ITK image from a SimpleITK image.
+    '''
+    
+    #np_view = sitk.GetArrayViewFromImage(image)
+    print(image.shape)
+    itk_view = itk.image_view_from_array(image)
+    #print(sp.diagonal())
+    itk_view.SetSpacing(sp)
+    itk_view.SetOrigin(origin)
+    
+    #itkspacing = itk.matrix_from_array(sp)
+    
+    itkdir = itk.matrix_from_array(direction)
+    
+    itk_view.SetDirection(direction)
+    #outputImageFileName='new_vol_test'
+    
+    return itk_view
+
+"""
